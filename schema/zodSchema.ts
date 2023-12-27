@@ -29,7 +29,7 @@ export const AuthSchema = z.object({
 });
 
 export const personalDataSchema = z.object({
-  fristName: z
+  firstName: z
     .string()
     .min(3, "Firstname should atleast be 3 char long")
     .max(40, "Cannot take more then 40 char"),
@@ -38,7 +38,7 @@ export const personalDataSchema = z.object({
     .min(2, "Lastname should atleast be 2 char long")
     .max(40, "Cannot take more then 40 char"),
   email: z.string().email(),
-  age: z.number().max(100),
+  age: z.number().or(z.string()),
   address: z.string(),
   state: z.string().max(40),
   city: z.string().or(z.number()),

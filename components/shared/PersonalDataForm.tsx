@@ -22,15 +22,7 @@ type Props = {};
 function PersonalDataForm({}: Props) {
   const form = useForm<TPersonalDetailsScehma>({
     resolver: zodResolver(personalDataSchema.partial()),
-    defaultValues: {
-      address: "",
-      age: 18,
-      city: "",
-      email: "",
-      fristName: "",
-      lastName: "",
-      zipcode: "PP00000",
-    },
+    defaultValues: {},
   });
 
   // console.log(personalDataSchema._cached.keys);
@@ -49,7 +41,7 @@ function PersonalDataForm({}: Props) {
       >
         <FormField
           control={form.control}
-          name="fristName"
+          name="firstName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>FristName</FormLabel>
