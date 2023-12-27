@@ -33,12 +33,18 @@ export default function FormScreen({}: Props) {
       email: "",
       fristName: "",
       lastName: "",
+      age: undefined,
       zipcode: "",
+      country: "",
+      state: "",
     },
   });
+  const delay = (time: number) =>
+    new Promise((resolve) => setTimeout(resolve, time));
 
-  const handleCheck = (value: TPersonalDetailsScehma) => {
-    console.log(value);
+  const processForm = async (value: TPersonalDetailsScehma) => {
+    await delay(2000);
+    form.reset();
   };
 
   const steps = [
@@ -91,7 +97,7 @@ export default function FormScreen({}: Props) {
             </h3>
             <Form {...form}>
               <form
-                // onBlurCapture={form.handleSubmit(handleCheck)}
+                onBlur={form.handleSubmit(processForm)}
                 className="flex flex-col gap-y-5"
               >
                 <div className="flex justify-between gap-5">
