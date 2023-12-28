@@ -7,26 +7,30 @@ import * as z from "zod";
 //   confirmpassword?: String;
 // }
 
-export const AuthSchema = z.object({
-  email: z.string().email(),
-  password: z
-    .string()
-    .min(
-      8,
-      "Must be 8 char long"
-      // "Must include 10 char, \n should include these \n unique char, \n A number, \n Atleast one capital letter, \n Undercase letter"
-    )
-    .max(40, "Not more then 40 char long")
-    .regex(/[A-Z]/, "Must contain capital letter")
-    .regex(/[a-z]/, "Must contain lowercase letter/s")
-    .regex(
-      /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/,
-      "Must contain atleat one special charector/s"
-    )
-    .regex(/[0-9]/, "Must contain numbers"),
-  username: z.string(),
-  confirmpassword: z.string(),
-});
+export const AuthSchema = z
+  .object({
+    email: z.string().email(),
+    password: z
+      .string()
+      .min(
+        8,
+        "Must be 8 char long"
+        // "Must include 10 char, \n should include these \n unique char, \n A number, \n Atleast one capital letter, \n Undercase letter"
+      )
+      .max(40, "Not more then 40 char long")
+      .regex(/[A-Z]/, "Must contain capital letter")
+      .regex(/[a-z]/, "Must contain lowercase letter/s")
+      .regex(
+        /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/,
+        "Must contain atleat one special charector/s"
+      )
+      .regex(/[0-9]/, "Must contain numbers"),
+    username: z.string(),
+    confirmpassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmpassword, {
+    message: "Passwords must match.",
+  });
 
 export const personalDataSchema = z.object({
   firstName: z
@@ -38,7 +42,7 @@ export const personalDataSchema = z.object({
     .min(2, "Lastname should atleast be 2 char long")
     .max(40, "Cannot take more then 40 char"),
   email: z.string().email(),
-  age: z.number().or(z.string()),
+  age: z.string().transform((val) => parseInt(val, 10)),
   address: z.string(),
   state: z.string().max(40),
   city: z.string().or(z.number()),
