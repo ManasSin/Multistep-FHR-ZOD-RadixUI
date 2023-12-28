@@ -72,16 +72,19 @@ export default function FormScreen() {
   };
 
   const prev = async () => {
-    const proceed = await validateToProcede();
-    if (!proceed) return;
-
+    if (currentStep != steps.length - 1) {
+      const proceed = await validateToProcede();
+      if (!proceed) return;
+    }
     if (currentStep > 0) setCurrentStep((prev) => prev - 1);
     console.log(currentStep);
   };
 
   const switchNavTab = async (index: number) => {
-    const proceed = await validateToProcede();
-    if (!proceed) return;
+    if (currentStep != steps.length - 1) {
+      const proceed = await validateToProcede();
+      if (!proceed) return;
+    }
 
     setCurrentStep(index);
   };
@@ -113,7 +116,8 @@ export default function FormScreen() {
       </section>
 
       <section className="w-full h-fit mt-16">
-        {currentStep === 0 ? (
+        {/* <Form {...form}> */}
+        {currentStep === 0 && (
           <div className="container">
             <h3 className="font-bold text-3xl  my-8  pb-4">
               <p className="border-b pb-4">Personal data form</p>
@@ -173,7 +177,9 @@ export default function FormScreen() {
               </form>
             </Form>
           </div>
-        ) : currentStep === 1 ? (
+        )}
+        {/* // ) : currentStep === 1 ? ( */}
+        {currentStep === 1 && (
           <div className="container">
             <h3 className="font-bold text-3xl  my-8  pb-4">
               <p className="border-b pb-4">Address</p>
@@ -181,9 +187,8 @@ export default function FormScreen() {
 
             <Form {...form}>
               <form
-                onSubmit={form.handleSubmit(processForm)}
+                // onSubmit={form.handleSubmit(processForm)}
                 className="flex flex-col gap-y-5"
-                autoComplete="false"
               >
                 <div className="flex justify-between gap-5">
                   <FormSkeleton
@@ -226,11 +231,16 @@ export default function FormScreen() {
                     FeildClassName="w-full"
                   />
                 </div>
-                <Button type="submit">Submit</Button>
+                <Button onClick={form.handleSubmit(processForm)} type="submit">
+                  Confirm Submition
+                </Button>
               </form>
             </Form>
           </div>
-        ) : (
+        )}
+        {/* </Form> */}
+        {/* // ) : ( */}
+        {currentStep === steps.length - 1 && (
           <div className="container">
             <h3 className="font-bold text-3xl  my-8  pb-4">
               <p className="border-b pb-4">Thanks for submiting form.</p>
@@ -239,7 +249,7 @@ export default function FormScreen() {
             <div className="rounded-full w-16 aspect-square bg-sky-500 outline-sky-300"></div>
           </div>
         )}
-        {/* </Form> */}
+        {/* // )} */}
       </section>
 
       <section className=" absolute bottom-6 max-w-xl md:max-w-3xl w-full">
