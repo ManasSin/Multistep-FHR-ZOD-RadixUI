@@ -36,7 +36,7 @@ const FormSkeleton = ({
           <FormLabel>{`${lable}`}</FormLabel>
           <FormControl>
             <Input
-              placeholder="Enter FristName"
+              placeholder={`${lable}`}
               {...field}
               className={`${className}`}
               autoComplete="false"

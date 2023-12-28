@@ -22,7 +22,7 @@ const steps = [
     details: "Address",
     fields: ["country", "state", "city", "street", "zip"],
   },
-  { name: "step 3", details: "Confirm" },
+  { name: "step 3", details: "Outro !" },
 ];
 
 export default function FormScreen() {
@@ -48,11 +48,11 @@ export default function FormScreen() {
   const [currentStep, setCurrentStep] = useState(0);
 
   const validateToProcede = async () => {
-    const feilds = steps[currentStep].fields;
-    const output = await form.trigger(feilds as FieldValues[], {
+    const fields = steps[currentStep].fields;
+    const isValid = await form.trigger(fields as FieldValues[], {
       shouldFocus: true,
     });
-    return output;
+    return isValid;
   };
 
   const next = async () => {
@@ -65,6 +65,10 @@ export default function FormScreen() {
       }
       setCurrentStep((prev) => prev + 1);
     }
+    console.log(
+      { "current step": currentStep },
+      { "from data": form.getValues() }
+    );
   };
 
   const prev = async () => {
@@ -75,7 +79,7 @@ export default function FormScreen() {
     console.log(currentStep);
   };
 
-  const handleStepSwap = async (index: number) => {
+  const switchNavTab = async (index: number) => {
     const proceed = await validateToProcede();
     if (!proceed) return;
 
@@ -98,7 +102,7 @@ export default function FormScreen() {
                 : "text-stone-600"
             }`}
             key={step.name}
-            onClick={() => handleStepSwap(index)}
+            onClick={() => switchNavTab(index)}
           >
             <span className="text-sm font-medium text-sky-600 transition-colors ">
               {step.name.toUpperCase()}
@@ -109,13 +113,13 @@ export default function FormScreen() {
       </section>
 
       <section className="w-full h-fit mt-16">
-        <Form {...form}>
-          {currentStep === 0 ? (
-            <div className="container">
-              <h3 className="font-bold text-3xl  my-8  pb-4">
-                <p className="border-b pb-4">Personal data form</p>
-              </h3>
+        {currentStep === 0 ? (
+          <div className="container">
+            <h3 className="font-bold text-3xl  my-8  pb-4">
+              <p className="border-b pb-4">Personal data form</p>
+            </h3>
 
+            <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(processForm)}
                 className="flex flex-col gap-y-5"
@@ -161,22 +165,25 @@ export default function FormScreen() {
                     lable="Age"
                     name="age"
                     className="w-fit"
-                    type="number"
+                    type="text"
                   />
                 </div>
 
                 <Button type="submit">Save and continue</Button>
               </form>
-            </div>
-          ) : currentStep === 1 ? (
-            <div className="container">
-              <h3 className="font-bold text-3xl  my-8  pb-4">
-                <p className="border-b pb-4">Address</p>
-              </h3>
+            </Form>
+          </div>
+        ) : currentStep === 1 ? (
+          <div className="container">
+            <h3 className="font-bold text-3xl  my-8  pb-4">
+              <p className="border-b pb-4">Address</p>
+            </h3>
 
+            <Form {...form}>
               <form
-                // onBlurCapture={form.handleSubmit(handleCheck)}
+                onSubmit={form.handleSubmit(processForm)}
                 className="flex flex-col gap-y-5"
+                autoComplete="false"
               >
                 <div className="flex justify-between gap-5">
                   <FormSkeleton
@@ -221,21 +228,18 @@ export default function FormScreen() {
                 </div>
                 <Button type="submit">Submit</Button>
               </form>
-            </div>
-          ) : (
-            <div className="container">
-              <h3 className="font-bold text-3xl  my-8  pb-4">
-                <p className="border-b pb-4">Address</p>
-              </h3>
+            </Form>
+          </div>
+        ) : (
+          <div className="container">
+            <h3 className="font-bold text-3xl  my-8  pb-4">
+              <p className="border-b pb-4">Thanks for submiting form.</p>
+            </h3>
 
-              <form>
-                <Button variant={"default"} size={"lg"} type="submit">
-                  Submit Form
-                </Button>
-              </form>
-            </div>
-          )}
-        </Form>
+            <div className="rounded-full w-16 aspect-square bg-sky-500 outline-sky-300"></div>
+          </div>
+        )}
+        {/* </Form> */}
       </section>
 
       <section className=" absolute bottom-6 max-w-xl md:max-w-3xl w-full">
