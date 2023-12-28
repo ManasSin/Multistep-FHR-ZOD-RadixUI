@@ -42,10 +42,16 @@ export const personalDataSchema = z.object({
     .min(2, "Lastname should atleast be 2 char long")
     .max(40, "Cannot take more then 40 char"),
   email: z.string().email(),
-  age: z.string().transform((val) => parseInt(val, 10)),
-  address: z.string(),
-  state: z.string().max(40),
+  age: z
+    .string()
+    .min(1, "Must be more then 10")
+    .transform((val) => parseInt(val, 10)),
+  address: z.string().min(8, "must be 8 char long"),
+  state: z
+    .string()
+    .min(2, "must be more then 2 char")
+    .max(40, "please change your home"),
   city: z.string().or(z.number()),
-  zipcode: z.number().or(z.string()),
-  country: z.string(),
+  zipcode: z.number().min(4).or(z.string().min(4)),
+  country: z.string().min(2),
 });
