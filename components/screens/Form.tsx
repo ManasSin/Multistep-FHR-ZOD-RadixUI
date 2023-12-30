@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, TPersonalDetailsScehma } from "@/lib/types";
 import { Form } from "../ui/form";
 import FormSkeleton from "../shared/FormSkeleton";
+import { useToast } from "../ui/use-toast";
 
 const steps = [
   {
@@ -41,7 +42,13 @@ export default function FormScreen() {
     },
   });
 
+  const { toast } = useToast();
+
   const processForm: SubmitHandler<TPersonalDetailsScehma> = (data) => {
+    toast({
+      title: "Success",
+      description: "Your Form is submited",
+    });
     console.log(data);
   };
 
@@ -116,7 +123,6 @@ export default function FormScreen() {
       </section>
 
       <section className="w-full h-fit mt-16">
-        {/* <Form {...form}> */}
         {currentStep === 0 && (
           <div className="container">
             <h3 className="font-bold text-3xl  my-8  pb-4">
@@ -178,7 +184,7 @@ export default function FormScreen() {
             </Form>
           </div>
         )}
-        {/* // ) : currentStep === 1 ? ( */}
+
         {currentStep === 1 && (
           <div className="container">
             <h3 className="font-bold text-3xl  my-8  pb-4">
@@ -238,8 +244,7 @@ export default function FormScreen() {
             </Form>
           </div>
         )}
-        {/* </Form> */}
-        {/* // ) : ( */}
+
         {currentStep === steps.length - 1 && (
           <div className="container">
             <h3 className="font-bold text-3xl  my-8  pb-4">
