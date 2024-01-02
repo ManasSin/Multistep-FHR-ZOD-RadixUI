@@ -98,7 +98,7 @@ export default function FormScreen() {
 
   return (
     <main className="max-w-4xl w-full flex flex-col items-center gap-y-10 mx-auto">
-      <section
+      <article
         aria-label="navbar-progress"
         className="flex justify-between items-center w-full h-10"
       >
@@ -120,13 +120,14 @@ export default function FormScreen() {
             <span className="text-sm font-medium">{step.details}</span>
           </div>
         ))}
-      </section>
+      </article>
 
       <section className="w-full h-fit mt-16">
         {currentStep === 0 && (
           <div className="container">
-            <h3 className="font-bold text-3xl  my-8  pb-4">
-              <p className="border-b pb-4">Personal data form</p>
+            <h3 className="font-bold text-3xl  my-8 border-b pb-4">
+              {" "}
+              Personal data form
             </h3>
 
             <Form {...form}>
@@ -187,9 +188,7 @@ export default function FormScreen() {
 
         {currentStep === 1 && (
           <div className="container">
-            <h3 className="font-bold text-3xl  my-8  pb-4">
-              <p className="border-b pb-4">Address</p>
-            </h3>
+            <h3 className="font-bold text-3xl  my-8  pb-4 border-b">Address</h3>
 
             <Form {...form}>
               <form
@@ -248,7 +247,7 @@ export default function FormScreen() {
         {currentStep === steps.length - 1 && (
           <div className="container">
             <h3 className="font-bold text-3xl  my-8  pb-4">
-              <p className="border-b pb-4">Thanks for submiting form.</p>
+              Thanks for submiting form.
             </h3>
 
             <div className="rounded-full w-16 aspect-square bg-sky-500 outline-sky-300"></div>
